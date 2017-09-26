@@ -1,4 +1,4 @@
-  @transaction.atomic
+ #@transaction.atomic
     @detail_route(methods=['put', 'patch'])
     def rollback(self, request, *args, **kwargs):
         article = self.get_ne_object()
