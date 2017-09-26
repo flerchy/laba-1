@@ -1,0 +1,9 @@
+  @transaction.atomic
+    @detail_route(methods=['put', 'patch'])
+    def rollback(self, request, *args, **kwargs):
+        article = self.get_object()
+        ArticleHistoryEntry.objects.create_from_article(article, self.request.user)
+        serializer = RollbackSerializer(data=request.data, instance=article)
+        serializer.is_valid(raise_exception=True)
+        instance = serializer.save()
+        return Response(ArticleSerializer(instance).data)
